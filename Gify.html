@@ -29,7 +29,7 @@
 
 <body>
     <div class="container">
-        <div id="topics-view"></div>
+        <div id="buttons-view"></div>
         <form id="topics-view">
             <label for="topic=input">add a random Sport</label>
             <input type="text" id="topic-input">
@@ -46,42 +46,48 @@
 
             function alertTopicName() {
                 var topicName = $(this).attr("data-name");
-               // link not connecting
-                var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=Cmr0G8P4Jt6VFv8YfIiDFJChs0e7xE9M&q=athletes&limit=25&offset=0&rating=R&lang=en";
-                alert(topicName);
-            }
+                // link not connecting
+                var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=OtRseKhThVM1InB0Oz18nTV1LvAHPjhW&q=sports&limit=25&offset=0&rating=PG-13&lang=en";
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function (response) {
+                    console.log(queryURL);
+                    console.log(response);
+                });
+            }   
 
-            function renderButtons() {
+              function renderButtons() {
 
                 $("#buttons-view").empty();
 
 
-                for (var i = 0; i < topics.length; i++) {
-                    var a = $("<button>");
-                    a.addClass("topic");
-                    a.attr("data-name", topics[i]);
-                    a.text(topics[i]);
-                    $("#buttons-view").append(a);
+              for (var i = 0; i < topics.length; i++) {
+                 var a = $("<button>");
+                a.addClass("topic");
+                a.attr("data-name", topics[i]);
+                a.text(topics[i]);
+                   $("#buttons-view").append(a);
 
-                }
-            }
+               }
+              }
 
-            $("#add-topic").on("click", function (event) {
-                event.preventDefault();
+             $("#add-topic").on("click", function (event) {
+              event.preventDefault();
 
                 var topic = $("#topic-input").val().trim();
-                    //add button not working
+            //add button not working
                 topics.push(topic);
 
-                renderButtons();
-                // buttons not displaying in array.
+               renderButtons();
+             //buttons not displaying in array.
 
-            });
+               });
 
             $(".topics").on("click")
             $(document).on("click", ".topic", alertTopicName);
 
-            renderButtons();
+          renderButtons();
 
         </script>
     </div>
