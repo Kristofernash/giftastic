@@ -38,7 +38,7 @@
             <input id="add-topic" type="submit" value="add topic">
 
         </form>
-
+            <div id= "giphy"> </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
 
@@ -47,47 +47,53 @@
             function alertTopicName() {
                 var topicName = $(this).attr("data-name");
                 // link not connecting
-                var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=OtRseKhThVM1InB0Oz18nTV1LvAHPjhW&q=sports&limit=25&offset=0&rating=PG-13&lang=en";
+                var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=OtRseKhThVM1InB0Oz18nTV1LvAHPjhW&q="+topicName+"&limit=10&offset=0&rating=PG-13&lang=en";
                 $.ajax({
                     url: queryURL,
                     method: "GET"
                 }).then(function (response) {
                     console.log(queryURL);
-                    console.log(response);
-                });
-            }   
+                    console.log(response.data);
+                   
+                  for(var i=0;i<response.data.length;i++){
+                    var imgURL = response.data[i].images.original.url;
+                    $("#giphy").prepend("<img src=" + imgURL + ">")
 
-              function renderButtons() {
+
+                }});
+            }
+
+            function renderButtons() {
 
                 $("#buttons-view").empty();
 
 
-              for (var i = 0; i < topics.length; i++) {
-                 var a = $("<button>");
-                a.addClass("topic");
-                a.attr("data-name", topics[i]);
-                a.text(topics[i]);
-                   $("#buttons-view").append(a);
+                for (var i = 0; i < topics.length; i++) {
+                    var a = $("<button>");
+                    a.addClass("topic");
+                    a.attr("data-name", topics[i]);
+                    a.text(topics[i]);
+                    $("#buttons-view").append(a);
 
-               }
-              }
+                }
+            }
 
-             $("#add-topic").on("click", function (event) {
-              event.preventDefault();
+            $("#add-topic").on("click", function (event) {
+                event.preventDefault();
 
                 var topic = $("#topic-input").val().trim();
-            //add button not working
+                //add button not working
                 topics.push(topic);
 
-               renderButtons();
-             //buttons not displaying in array.
+                renderButtons();
+                //buttons not displaying in array.
 
-               });
+            });
 
             $(".topics").on("click")
             $(document).on("click", ".topic", alertTopicName);
 
-          renderButtons();
+            renderButtons();
 
         </script>
     </div>
